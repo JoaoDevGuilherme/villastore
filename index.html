@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VillaStore - Moda Exclusiva</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="alert" id="welcomeAlert">Bem-vindo à VillaStore! Veja nossas ofertas exclusivas.</div>
+
+  <!-- Cabeçalho -->
+  <header class="navbar" id="navbar">
+    <div class="logo" role="banner" aria-label="Logo VillaStore">
+      <img src="logo.png" alt="VillaStore" loading="lazy" />
+      <h1>VillaStore</h1>
+    </div>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="#home">Início</a></li>
+        <li><a href="#colecao">Coleção</a></li>
+        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#cart">Carrinho</a></li>
+        <li><a id="accountLink" href="login.html">Minha Conta</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menu">☰</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hero-text glass">
+      <h2>Elegância e Exclusividade</h2>
+      <p>Descubra a nova coleção da VillaStore. Peças feitas para seu lifestyle de luxo.</p>
+      <a href="#colecao" class="btn">Ver Coleção</a>
+    </div>
+  </section>
+
+  <!-- Coleção -->
+  <section id="colecao" class="colecao reveal">
+    <h2>Nossa Coleção</h2>
+    <p>Seleção curada para pessoas que valorizam estilo atemporal.</p>
+    <div class="grid" aria-live="polite">
+      <article class="item" tabindex="0" data-id="1" data-name="Camisa Premium" data-price="199.9" data-image="produto1.jpg" data-size="G" data-color="Preto">
+        <img src="produto1.jpg" alt="Camisa Premium" loading="lazy" />
+        <h3>Camisa Premium</h3>
+        <p>R$ 199,90</p>
+        <button class="cta">Adicionar ao Carrinho</button>
+      </article>
+      <article class="item" tabindex="0" data-id="2" data-name="Vestido Elegance" data-price="349.9" data-image="produto2.jpg" data-size="M" data-color="Branco">
+        <img src="produto2.jpg" alt="Vestido Elegance" loading="lazy" />
+        <h3>Vestido Elegance</h3>
+        <p>R$ 349,90</p>
+        <button class="cta">Adicionar ao Carrinho</button>
+      </article>
+      <article class="item" tabindex="0" data-id="3" data-name="Jaqueta Lux" data-price="499.9" data-image="produto3.jpg" data-size="M" data-color="Preto">
+        <img src="produto3.jpg" alt="Jaqueta Lux" loading="lazy" />
+        <h3>Jaqueta Lux</h3>
+        <p>R$ 499,90</p>
+        <button class="cta">Adicionar ao Carrinho</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- Catálogo interativo -->
+  <section id="catalogo" class="catalogo reveal">
+    <h2>Catálogo Interativo</h2>
+    <p>Explore produtos com tamanhos, cores, frete e simule pedidos.</p>
+
+    <div class="catalogo-grid">
+      <article class="catalogo-card" aria-label="Detalhes do produto seleccionado">
+        <h3 id="cItemName">Camisa Premium</h3>
+        <img id="cItemImage" src="produto1.jpg" alt="Camisa Premium" loading="lazy" />
+        <p id="cItemDesc">Tecidos premium, acabamento Italiano.</p>
+        <p class="price" id="cItemPrice">R$ 199,90</p>
+
+        <label for="cSize">Tamanho</label>
+        <select id="cSize" aria-label="Escolher tamanho">
+          <option value="P">P</option>
+          <option value="M">M</option>
+          <option value="G" selected>G</option>
+          <option value="GG">GG</option>
+        </select>
+
+        <label for="cColor">Cor</label>
+        <select id="cColor" aria-label="Escolher cor">
+          <option value="Preto" selected>Preto</option>
+          <option value="Branco">Branco</option>
+          <option value="Dourado">Dourado</option>
+          <option value="Bordeaux">Bordeaux</option>
+        </select>
+
+        <label for="cQty">Quantidade</label>
+        <input type="number" id="cQty" value="1" min="1" max="10" />
+
+        <button id="cAddToCart" class="btn">Simular Pedido</button>
+
+        <div class="shipping-box">
+          <h4>Cálculo de frete</h4>
+          <input type="text" id="cep" placeholder="Digite seu CEP" maxlength="9" />
+          <button id="calcFrete" class="cta">Calcular</button>
+          <p id="freteResult" class="form-status"></p>
+        </div>
+      </article>
+
+      <aside class="account-box">
+        <h3>Receba descontos</h3>
+        <form id="signupForm" aria-label="Cadastro de cliente">
+          <input type="text" id="signupName" placeholder="Nome completo" required />
+          <input type="email" id="signupEmail" placeholder="Email" required />
+          <input type="password" id="signupPass" placeholder="Senha" required />
+          <button type="submit" class="btn">Criar conta</button>
+          <p id="signupStatus" class="form-status"></p>
+        </form>
+
+        <h4>Resumo do pedido</h4>
+        <div id="orderSummary" class="order-summary" aria-live="polite">
+          Nenhum pedido simulado ainda.
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Carrinho -->
+  <section id="cart" class="cart reveal">
+    <h2>Seu Carrinho</h2>
+    <div id="cartItems"></div>
+    <div class="cart-summary">
+      <p>Total: <strong id="cartTotal">R$ 0,00</strong></p>
+      <button id="checkoutBtn" class="btn">Finalizar Compra</button>
+      <p id="cartNotice" class="form-status"></p>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre" class="sobre reveal">
+    <h2>Sobre a VillaStore</h2>
+    <p>
+      Fundada em 2026, a VillaStore nasceu com o propósito de oferecer moda sofisticada e exclusiva.
+      Cada peça é pensada para transmitir elegância e autenticidade.
+    </p>
+    <p class="highlight">Frete grátis para todo o Brasil em compras acima de R$300.</p>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="contato reveal">
+    <h2>Entre em Contato</h2>
+    <form id="contactForm" aria-label="Formulário de contato">
+      <input type="text" placeholder="Seu nome" name="name" required />
+      <input type="email" placeholder="Seu e-mail" name="email" required />
+      <textarea placeholder="Sua mensagem" name="message" rows="4" required></textarea>
+      <button type="submit" class="btn">Enviar</button>
+      <p class="form-status" id="formStatus" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <div class="footer-grid">
+      <p>&copy; 2026 VillaStore - Todos os direitos reservados.</p>
+      <p>Telefone: (11) 0000-0000 | Email: contato@villastore.com</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu móvel
+    const menuToggle = document.getElementById('menuToggle');
+    const navbar = document.querySelector('.navbar nav ul');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbar.classList.toggle('open');
+    });
+
+    // Interação de items na seção de coleção
+    document.querySelectorAll('.item .cta').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.item');
+        card.classList.add('selected');
+        setTimeout(() => card.classList.remove('selected'), 800);
+
+        if (card) {
+          const item = {
+            id: Number(card.dataset.id),
+            name: card.dataset.name,
+            image: card.dataset.image,
+            price: Number(card.dataset.price),
+            size: card.dataset.size || 'M',
+            color: card.dataset.color || 'Preto',
+            qty: 1,
+          };
+          addToCart(item);
+          showToast(`${item.name} adicionado ao carrinho.`);
+        }
+      });
+    });
+
+    // animação de scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.2});
+
+    document.querySelectorAll('.reveal').forEach((section) => observer.observe(section));
+
+    // Formulário com validação simples
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = contactForm.elements['name'].value.trim();
+      const email = contactForm.elements['email'].value.trim();
+      if (!name || !email) {
+        formStatus.textContent = 'Preencha todos os campos para prosseguir.';
+        formStatus.className = 'error';
+        return;
+      }
+      formStatus.textContent = `Obrigado, ${name}! Em breve entraremos em contato.`;
+      formStatus.className = 'success';
+      contactForm.reset();
+    });
+
+    // Alerta inicial
+    setTimeout(() => {
+      document.getElementById('welcomeAlert').classList.add('show');
+      setTimeout(() => document.getElementById('welcomeAlert').classList.remove('show'), 4200);
+    }, 400);
+
+    // Partículas no hero
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    const particles = [];
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight * 0.8;
+    };
+
+    const generateParticle = () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 0.4,
+      speedX: (Math.random() - 0.5) * 0.8,
+      speedY: -0.05 - Math.random() * 0.15,
+      alpha: Math.random() * 0.4 + 0.3,
+    });
+
+    const initParticles = (count = 100) => {
+      particles.length = 0;
+      for (let i = 0; i < count; i++) particles.push(generateParticle());
+    };
+
+    const loop = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.y < 0 || p.x < 0 || p.x > canvas.width) Object.assign(p, generateParticle(), {y: canvas.height});
+        ctx.fillStyle = `rgba(255, 215, 0, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(loop);
+    };
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      initParticles(140);
+    });
+
+    resizeCanvas();
+    initParticles(140);
+    loop();
+
+    // Catálogo interativo: configurações de produto
+    const catalogData = [
+      {
+        id: 1,
+        name: 'Camisa Premium',
+        price: 199.9,
+        image: 'produto1.jpg',
+        desc: 'Tecidos premium, acabamento Italiano.',
+        sizes: ['P', 'M', 'G', 'GG'],
+        colors: ['Preto', 'Branco', 'Dourado', 'Bordeaux'],
+      },
+      {
+        id: 2,
+        name: 'Vestido Elegance',
+        price: 349.9,
+        image: 'produto2.jpg',
+        desc: 'Modelagem fluida e glamour contemporâneo.',
+        sizes: ['P', 'M', 'G'],
+        colors: ['Branco', 'Rosa', 'Azul-marinho'],
+      },
+      {
+        id: 3,
+        name: 'Jaqueta Lux',
+        price: 499.9,
+        image: 'produto3.jpg',
+        desc: 'Couro sintético premium com design estruturado.',
+        sizes: ['M', 'G', 'GG'],
+        colors: ['Preto', 'Marrom', 'Bordô'],
+      },
+    ];
+
+    const cItemName = document.getElementById('cItemName');
+    const cItemImage = document.getElementById('cItemImage');
+    const cItemDesc = document.getElementById('cItemDesc');
+    const cItemPrice = document.getElementById('cItemPrice');
+    const cSize = document.getElementById('cSize');
+    const cColor = document.getElementById('cColor');
+    const cQty = document.getElementById('cQty');
+    const cAddToCart = document.getElementById('cAddToCart');
+    const orderSummary = document.getElementById('orderSummary');
+
+    let selectedIndex = 0;
+
+    function updateCatalogSelectors() {
+      const product = catalogData[selectedIndex];
+      cItemName.textContent = product.name;
+      cItemImage.src = product.image;
+      cItemImage.alt = product.name;
+      cItemDesc.textContent = product.desc;
+      cItemPrice.textContent = `R$ ${product.price.toFixed(2)}`;
+
+      cSize.innerHTML = product.sizes
+        .map((size) => `<option value="${size}">${size}</option>`)
+        .join('');
+      cColor.innerHTML = product.colors
+        .map((color) => `<option value="${color}">${color}</option>`)
+        .join('');
+    }
+
+    updateCatalogSelectors();
+
+    // Alternar produtos a cada 6 segundos para mais interatividade
+    setInterval(() => {
+      selectedIndex = (selectedIndex + 1) % catalogData.length;
+      updateCatalogSelectors();
+      showToast('Produto alterado para melhor inspiração!');
+    }, 6200);
+
+    cAddToCart.addEventListener('click', () => {
+      const product = catalogData[selectedIndex];
+      const size = cSize.value;
+      const color = cColor.value;
+      const qty = Number(cQty.value) || 1;
+      const subtotal = product.price * qty;
+
+      orderSummary.innerHTML = `
+        <p>Produto: <strong>${product.name}</strong></p>
+        <p>Tamanho: <strong>${size}</strong></p>
+        <p>Cor: <strong>${color}</strong></p>
+        <p>Quantidade: <strong>${qty}</strong></p>
+        <p>Subtotal: <strong>R$ ${subtotal.toFixed(2)}</strong></p>
+      `;
+
+      showToast('Pedido simulado atualizado!');
+    });
+
+    // Calculadora de frete simples
+    const cep = document.getElementById('cep');
+    const calcFrete = document.getElementById('calcFrete');
+    const freteResult = document.getElementById('freteResult');
+
+    calcFrete.addEventListener('click', () => {
+      const cepVal = cep.value.replace(/\D/g, '');
+      if (!cepVal || cepVal.length !== 8) {
+        freteResult.textContent = 'Digite um CEP válido (8 dígitos).';
+        freteResult.className = 'form-status error';
+        return;
+      }
+      const firstDigit = Number(cepVal[0]);
+      let frete = 35.0;
+      if (firstDigit <= 2) frete = 20.0;
+      else if (firstDigit <= 4) frete = 24.5;
+      else if (firstDigit <= 6) frete = 34.9;
+      else frete = 46.0;
+      freteResult.textContent = `Frete estimado: R$ ${frete.toFixed(2)}. Prazo 3-7 dias úteis.`;
+      freteResult.className = 'form-status success';
+    });
+
+    // Cadastro de conta com LocalStorage para simulação
+    const signupForm = document.getElementById('signupForm');
+    const signupStatus = document.getElementById('signupStatus');
+
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const pass = document.getElementById('signupPass').value.trim();
+
+      if (!name || !email || !pass) {
+        signupStatus.textContent = 'Preencha todos os campos para criar sua conta.';
+        signupStatus.className = 'form-status error';
+        return;
+      }
+
+      const customers = JSON.parse(localStorage.getItem('villastore_customers') || '[]');
+      if (customers.some((customer) => customer.email === email)) {
+        signupStatus.textContent = 'Este e-mail já está cadastrado. Faça login para continuar.';
+        signupStatus.className = 'form-status error';
+        return;
+      }
+
+      customers.push({ name, email, pass, subscribed: true, createdAt: new Date().toISOString() });
+      localStorage.setItem('villastore_customers', JSON.stringify(customers));
+
+      signupStatus.textContent = `Conta criada! ${name}, você receberá promoções exclusivas em ${email}.`;
+      signupStatus.className = 'form-status success';
+      e.target.reset();
+      showToast('Conta criada com sucesso. Descontos ativos no seu e-mail!');
+    });
+
+    // Carrinho persistente em localStorage
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartNotice = document.getElementById('cartNotice');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('villastore_cart') || '[]');
+    }
+
+    function setCart(cart) {
+      localStorage.setItem('villastore_cart', JSON.stringify(cart));
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      if (!cart.length) {
+        cartItemsEl.innerHTML = '<p>Seu carrinho está vazio.</p>';
+        cartTotalEl.textContent = 'R$ 0,00';
+        return;
+      }
+
+      let total = 0;
+      cartItemsEl.innerHTML = cart
+        .map((item, idx) => {
+          const line = item.price * item.qty;
+          total += line;
+          return `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" />
+            <div>
+              <p><strong>${item.name}</strong></p>
+              <p>${item.size} / ${item.color} / x${item.qty}</p>
+              <p>R$ ${line.toFixed(2)}</p>
+            </div>
+            <button class="cta" data-idx="${idx}">Remover</button>
+          </div>
+          `;
+        })
+        .join('');
+
+      cartTotalEl.textContent = `R$ ${total.toFixed(2)}`;
+    }
+
+    function addToCart(item) {
+      const cart = getCart();
+      const existing = cart.find((i) => i.id === item.id && i.size === item.size && i.color === item.color);
+      if (existing) {
+        existing.qty += item.qty;
+      } else {
+        cart.push(item);
+      }
+      setCart(cart);
+      renderCart();
+      showToast('Item adicionado ao carrinho com sucesso!');
+    }
+
+    // Eventos do botão simular pedido para salvar no carrinho real
+    cAddToCart.addEventListener('click', () => {
+      const product = catalogData[selectedIndex];
+      const size = cSize.value;
+      const color = cColor.value;
+      const qty = Number(cQty.value) || 1;
+
+      const cartItem = {
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        size,
+        color,
+        qty,
+      };
+
+      addToCart(cartItem);
+
+      orderSummary.innerHTML = `
+        <p>Produto: <strong>${product.name}</strong></p>
+        <p>Tamanho: <strong>${size}</strong></p>
+        <p>Cor: <strong>${color}</strong></p>
+        <p>Quantidade: <strong>${qty}</strong></p>
+        <p>Subtotal: <strong>R$ ${(product.price * qty).toFixed(2)}</strong></p>
+      `;
+    });
+
+    cartItemsEl.addEventListener('click', (e) => {
+      if (e.target.matches('.cart-item .cta')) {
+        const idx = Number(e.target.getAttribute('data-idx'));
+        const cart = getCart();
+        cart.splice(idx, 1);
+        setCart(cart);
+        renderCart();
+      }
+    });
+
+    checkoutBtn.addEventListener('click', () => {
+      const cart = getCart();
+      if (!cart.length) {
+        cartNotice.textContent = 'Seu carrinho está vazio. Adicione itens antes de finalizar.';
+        cartNotice.className = 'form-status error';
+        return;
+      }
+
+      localStorage.removeItem('villastore_cart');
+      renderCart();
+      cartNotice.textContent = 'Compra finalizada com sucesso! Obrigado pela preferência.';
+      cartNotice.className = 'form-status success';
+      showToast('Checkout realizado. Confirmação enviada ao seu e-mail.');
+    });
+
+    renderCart();
+
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2200);
+    }
+  </script>
+</body>
+</html>
